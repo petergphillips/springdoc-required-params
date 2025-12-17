@@ -19,7 +19,7 @@ class RequiredParameterTest(
   }
 
   @Test
-  fun `parameter should be marked as required in api docs`() {
+  fun `greet endpoint parameter should be marked as required in api docs`() {
     webTestClient.get().uri("/v3/api-docs")
       .exchange()
       .expectStatus()
@@ -27,5 +27,16 @@ class RequiredParameterTest(
       .expectBody()
       .consumeWith(System.out::println)
       .jsonPath("paths./.get.parameters[0].required").isEqualTo("true")
+  }
+
+  @Test
+  fun `Greeting name parameter should be marked as required in api docs`() {
+    webTestClient.get().uri("/v3/api-docs")
+      .exchange()
+      .expectStatus()
+      .isOk
+      .expectBody()
+      .consumeWith(System.out::println)
+      .jsonPath("components.schemas.Greeting.required").isEqualTo("name")
   }
 }
